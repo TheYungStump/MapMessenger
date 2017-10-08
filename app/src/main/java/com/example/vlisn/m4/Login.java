@@ -16,8 +16,10 @@ import android.widget.Toast;
  */
 
 public class Login extends AppCompatActivity {
+    AppCompatActivity activity = Login.this;
     Button loginB, cancelB;
-    EditText etUsername,etPassword;
+    EditText etUsername, etPassword;
+    DatabaseHelper dbHelper;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -27,11 +29,11 @@ public class Login extends AppCompatActivity {
         etPassword = (EditText) findViewById(R.id.password);
         loginB = (Button) findViewById(R.id.loginB);
         cancelB = (Button) findViewById(R.id.cancelButton);
+        dbHelper = new DatabaseHelper(activity);
 
     }
     public void displayWelcome(View view) {
-        if((etUsername.getText().toString().equals("user"))
-                && etPassword.getText().toString().equals("pass")) {
+        if (dbHelper.checkUser(etUsername.getText().toString(), etPassword.getText().toString())) {
             Intent intent = new Intent(Login.this, Welcome.class);
             startActivity(intent);
         } else { //error
