@@ -62,7 +62,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         // Adding Row
         db.insert(USER, null, values);
-        db.close();
+       //db.close();
     }
 
     public List<User> getUsers() {
@@ -88,8 +88,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 user.setActualName(cursor.getString(cursor.getColumnIndex(ACTUAL_NAME)));
             } while (cursor.moveToNext());
         }
-        cursor.close();
-        db.close();
+        //cursor.close();
+        //db.close();
 
         return userList;
     }
@@ -105,7 +105,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         // Updating Row
         db.update(USER, values, USER_ID + " =?",
                 new String[] {String.valueOf(user.getId())});
-        db.close();
+        //db.close();
     }
 
     public void deleteUser(User user) {
@@ -113,7 +113,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         // Delete user by id value
         db.delete(USER, USER_ID  + " =?",
                 new String[] {String.valueOf(user.getId())});
-        db.close();
+        //db.close();
     }
 
     // Checks to see if User exists
@@ -130,8 +130,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         // A query that will return the number of occurrences of that username
         Cursor cursor = db.query(USER, columns, selection, selectionsArgs, null, null, null);
         int count = cursor.getCount();
-        cursor.close();
-        db.close();
+        //cursor.close();
+        //db.close();
 
         if (count > 0) {
             return true;
