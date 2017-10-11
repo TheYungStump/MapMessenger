@@ -1,36 +1,28 @@
 package com.example.vlisn.m4;
 
+
+import com.google.firebase.database.IgnoreExtraProperties;
+
 /**
- * Created by Mason Buchanan on 10/2/2017.
+ * Created by Ravi Tamada on 07/10/16.
+ * www.androidhive.info
  */
 
+@IgnoreExtraProperties
 public class User {
 
-    private String userName;
-    private String password;
-    private String actualName;
+    public String name;
+    public String email;
+    public String password;
 
-    public String getActualName() {
-        return actualName;
+    // Default constructor required for calls to
+    // DataSnapshot.getValue(User.class)
+    public User() {
     }
 
-    public void setActualName(String actualName) {
-        this.actualName = actualName;
-    }
-
-    public String getUserName() {
-        return userName;
-    }
-
-    public void setUserName(String userName) {
-        this.userName = userName;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
+    public User(String name, String email, String password) {
+        this.name = name;
         this.password = password;
+        this.email = email;
     }
 }

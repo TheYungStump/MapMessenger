@@ -18,6 +18,10 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
+import static android.R.attr.value;
 
 /**
  * Created by vlisn on 9/24/2017.
@@ -27,20 +31,12 @@ public class Login extends AppCompatActivity {
 
     Button loginB, cancelB;
     EditText etEmail, etPassword;
-    FirebaseAuth auth;
-    ProgressBar progressBar;
+    private DatabaseReference mFirebaseDatabase;
+    private FirebaseDatabase mFirebaseInstance;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        auth = FirebaseAuth.getInstance();
-
-        if (auth.getCurrentUser() != null) {
-            startActivity(new Intent(Login.this, MainActivity.class));
-            finish();
-        }
-
         setContentView(R.layout.login_main);
 
         //Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -52,7 +48,11 @@ public class Login extends AppCompatActivity {
         loginB = (Button) findViewById(R.id.loginButton);
         cancelB = (Button) findViewById(R.id.cancelButton);
 
-        auth = FirebaseAuth.getInstance();
+        mFirebaseInstance = FirebaseDatabase.getInstance();
+
+        // get reference to 'users' node
+        mFirebaseDatabase = mFirebaseInstance.getReference("users");
+
 
         cancelB.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -67,32 +67,7 @@ public class Login extends AppCompatActivity {
                 String email = etEmail.getText().toString();
                 final String password = etPassword.getText().toString();
 
-                if (TextUtils.isEmpty(email)) {
-                    Toast.makeText(getApplicationContext(), "Enter email, please!", Toast.LENGTH_SHORT);
-                    return;
-                }
-
-                if (TextUtils.isEmpty(password)) {
-                    Toast.makeText(getApplicationContext(), "Enter password, please!", Toast.LENGTH_SHORT);
-                    return;
-                }
-
-                //progressBar.setVisibility(View.VISIBLE);
-
-                auth.signInWithEmailAndPassword(email, password)
-                        .addOnCompleteListener(Login.this, new OnCompleteListener<AuthResult>() {
-                            @Override
-                            public void onComplete(@NonNull Task<AuthResult> task) {
-                                //progressBar.setVisibility(View.GONE);
-                                if (!task.isSuccessful()) {
-                                    Toast.makeText(Login.this, getString(R.string.auth_failed), Toast.LENGTH_LONG).show();
-                                } else {
-                                    Intent intent = new Intent(Login.this, Welcome.class);
-                                    startActivity(intent);
-                                    finish();
-                                }
-                            }
-                        });
+               
             }
         });
     }
