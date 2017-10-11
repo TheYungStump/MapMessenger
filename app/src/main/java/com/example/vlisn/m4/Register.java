@@ -85,7 +85,7 @@ public class Register extends AppCompatActivity {
                 if (TextUtils.isEmpty(userId)) {
                     createUser(name, email, password);
                 }
-                Intent intent = new Intent(Register.this, Login.class);
+                Intent intent = new Intent(Register.this, Welcome.class);
                 startActivity(intent);
             }
 

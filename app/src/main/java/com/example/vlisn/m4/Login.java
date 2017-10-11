@@ -81,7 +81,7 @@ public class Login extends AppCompatActivity {
                                 if (dataSnapshot.hasChildren()) {
                                     boolean exists = false;
                                     User details = dataSnapshot.getValue(User.class);
-                                    if(details.getEmail().equals(email) && details.getPassword().equals(password)) {
+                                    if (details.getEmail().equals(email) && details.getPassword().equals(password)) {
                                         exists = true;
                                         if (exists) {
                                             startActivity(new Intent(Login.this, Welcome.class));
