@@ -79,7 +79,7 @@ public class Login extends AppCompatActivity {
                             @Override
                             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
                                 if (dataSnapshot.hasChildren()) {
-                                    boolean exists = false;
+                                    exists = false;
                                     User details = dataSnapshot.getValue(User.class);
                                     if (details.getEmail().equals(email) && details.getPassword().equals(password)) {
                                         exists = true;

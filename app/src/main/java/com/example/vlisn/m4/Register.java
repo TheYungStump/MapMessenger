@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.text.TextUtils;
+import android.widget.RadioButton;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -43,6 +44,8 @@ public class Register extends AppCompatActivity {
         etName = (EditText) findViewById(R.id.name);
         bCreate = (Button) findViewById(R.id.buttonCreate);
         bCancel = (Button) findViewById(R.id.buttonCancel);
+        final RadioButton adminButton = (RadioButton) findViewById(R.id.adminButton);
+        RadioButton userButton = (RadioButton) findViewById(R.id.userButton);
         mAuth = FirebaseAuth.getInstance();
 
 
@@ -80,10 +83,15 @@ public class Register extends AppCompatActivity {
                 String name = etName.getText().toString().trim();
                 String email = etEmail.getText().toString().trim();
                 String password = etPassword.getText().toString().trim();
-
+                boolean access = false;
+                    if (adminButton.isChecked()) {
+                        access = true;
+                    } else {
+                        access = false;
+                    }
                 // Check for already existed userId
                 if (TextUtils.isEmpty(userId)) {
-                    createUser(name, email, password);
+                    createUser(name, email, password, access);
                 }
                 Intent intent = new Intent(Register.this, Welcome.class);
                 startActivity(intent);
@@ -104,7 +112,7 @@ public class Register extends AppCompatActivity {
     /**
      * Creating new user node under 'users'
      */
-    private void createUser(String name, String email, String password) {
+    private void createUser(String name, String email, String password, boolean access) {
         // TODO
         // In real apps this userId should be fetched
         // by implementing firebase auth
@@ -112,7 +120,7 @@ public class Register extends AppCompatActivity {
             userId = mFirebaseDatabase.push().getKey();
         }
 
-        User user = new User(name, email, password);
+        User user = new User(name, email, password, access);
 
         addUserChangeListener();
 
