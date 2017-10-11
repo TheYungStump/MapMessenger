@@ -42,7 +42,6 @@
         android:layout_height="60dp"
         android:text="Login"
         android:layout_weight="0.03"
-        android:onClick="displayWelcome"
         />
     <Button
         android:id="@+id/cancelButton"

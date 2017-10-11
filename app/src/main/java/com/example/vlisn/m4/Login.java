@@ -39,7 +39,20 @@ public class Login extends AppCompatActivity {
     EditText etEmail, etPassword;
     private DatabaseReference mFirebaseDatabase;
     private FirebaseDatabase mFirebaseInstance;
-    boolean exists;
+    //boolean exists = true;
+    User details;
+    String email;
+    String password;
+    final boolean[] exists = new boolean[1];
+    public void onCreateLogin(){
+        if(!(details.getEmail().equals(email)) || !(details.getPassword().equals(password))) {
+            Context context = getApplicationContext();
+            CharSequence text = "email or password does not exist!";
+            int duration = Toast.LENGTH_SHORT;
+            Toast toast = Toast.makeText(context, text, duration);
+            toast.show();
+        }
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -71,45 +84,34 @@ public class Login extends AppCompatActivity {
         loginB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                final String email = etEmail.getText().toString();
-                final String password = etPassword.getText().toString();
+                email = etEmail.getText().toString().trim();
+                password = etPassword.getText().toString().trim();
 
-                mFirebaseDatabase.child("users")
-                        .addChildEventListener(new ChildEventListener() {
+                mFirebaseDatabase.child("users").child(email.substring(0, email.indexOf('@')))
+                        .addValueEventListener(new ValueEventListener() {
                             @Override
-                            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                                if (dataSnapshot.hasChildren()) {
-                                    exists = false;
-                                    User details = dataSnapshot.getValue(User.class);
-                                    if(details.getEmail().equals(email) && details.getPassword().equals(password)) {
-                                        exists = true;
-                                        if (exists) {
-                                            startActivity(new Intent(Login.this, Welcome.class));
-                                        }
+                            public void onDataChange(DataSnapshot dataSnapshot) {
+                                //System.out.println(email);
+                                //System.out.println(password);
+                                if (dataSnapshot.exists()) {
+                                    //System.out.println("reached with email " + dataSnapshot.child("email"));
+                                    String emaildata = dataSnapshot.child("email").toString();
+                                    String passworddata = dataSnapshot.child("password").toString();
+                                    if (emaildata.equals(email) && passworddata.equals(password)) {
+                                        //System.out.println("reached with email " + dataSnapshot.child("email"));
+                                        //System.out.println(dataSnapshot.child("password"));
+                                        startActivity(new Intent(Login.this, Welcome.class));
+                                    } else {
+                                        Context context = getApplicationContext();
+                                        CharSequence text = "email or password does not exist!";
+                                        int duration = Toast.LENGTH_SHORT;
+                                        Toast toast = Toast.makeText(context, text, duration);
+                                        toast.show();
                                     }
-
                                 }
-                                if (!exists) {
-                                    Context context = getApplicationContext();
-                                    CharSequence text = "email or password does not exist!";
-                                    int duration = Toast.LENGTH_SHORT;
-                                    Toast toast = Toast.makeText(context, text, duration);
-                                    toast.show();
-                                }
-                            }
 
-                            @Override
-                            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
 
-                            }
 
-                            @Override
-                            public void onChildRemoved(DataSnapshot dataSnapshot) {
-
-                            }
-
-                            @Override
-                            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
                             }
 
                             @Override
@@ -118,6 +120,64 @@ public class Login extends AppCompatActivity {
                             }
                         });
 
+//                mFirebaseDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
+//                    @Override
+//                    public void onDataChange(DataSnapshot dataSnapshot) {
+//                        mFirebaseDatabase.child("users")
+//                                .addChildEventListener(new ChildEventListener() {
+//                                    @Override
+//                                    public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+//
+//                                        if (dataSnapshot.hasChildren()) {
+//                                            details = dataSnapshot.getValue(User.class);
+//                                            if(details.getEmail().equals(email) && details.getPassword().equals(password)) {
+//                                                exists[0] = false;
+//                                                startActivity(new Intent(Login.this, Welcome.class));
+//                                            } else{
+//                                                exists[0] = true;
+//                                            }
+//                                        }
+//
+//                                    }
+//
+//
+//                                    @Override
+//                                    public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+//
+//                                    }
+//
+//                                    @Override
+//                                    public void onChildRemoved(DataSnapshot dataSnapshot) {
+//
+//                                    }
+//
+//                                    @Override
+//                                    public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+//                                    }
+//
+//                                    @Override
+//                                    public void onCancelled(DatabaseError databaseError) {
+//
+//                                    }
+//                                });
+//
+//                    }
+//
+//                    @Override
+//                    public void onCancelled(DatabaseError databaseError) {
+//
+//                    }
+//                });
+                //System.out.println(exists[0]);
+//                if (exists[0]) {
+//                    System.out.println("IsTrue?" + exists[0]);
+//                    Context context = getApplicationContext();
+//                    CharSequence text = "email or password does not exist!";
+//                    int duration = Toast.LENGTH_SHORT;
+//                    Toast toast = Toast.makeText(context, text, duration);
+//                    toast.show();
+//                    //exists[0] = false;
+//                }
 
             }
         });

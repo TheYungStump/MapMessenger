@@ -117,7 +117,7 @@ public class Register extends AppCompatActivity {
         // In real apps this userId should be fetched
         // by implementing firebase auth
         if (TextUtils.isEmpty(userId)) {
-            userId = mFirebaseDatabase.push().getKey();
+            userId = email.substring(0,email.indexOf('@'));
         }
 
         User user = new User(name, email, password, access);
