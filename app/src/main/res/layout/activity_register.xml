@@ -49,6 +49,20 @@
         android:ems="10"
         android:inputType="textPassword" />
 
+    <RadioButton
+        android:id="@+id/adminButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.09"
+        android:text="Admin" />
+
+    <RadioButton
+        android:id="@+id/userButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.09"
+        android:text="User" />
+
     <Button
         android:id="@+id/buttonCreate"
         android:layout_width="match_parent"
@@ -61,7 +75,7 @@
         android:id="@+id/buttonCancel"
         android:layout_width="match_parent"
         android:layout_height="60dp"
-        android:text="cancel"
+        android:layout_weight="0.03"
         android:onClick="onClickCancel"
-        android:layout_weight="0.03" />
+        android:text="cancel" />
 </LinearLayout>
