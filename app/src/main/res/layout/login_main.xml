@@ -9,10 +9,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="0.05"
-        android:text="Username:" />
+        android:text="Email:" />
 
     <EditText
-        android:id="@+id/username"
+        android:id="@+id/email"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="0.05"
@@ -37,7 +37,7 @@
          />
 
     <Button
-        android:id="@+id/loginB"
+        android:id="@+id/loginButton"
         android:layout_width="match_parent"
         android:layout_height="60dp"
         android:text="Login"

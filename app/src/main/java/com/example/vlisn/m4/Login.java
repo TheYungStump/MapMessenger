@@ -3,73 +3,97 @@ package com.example.vlisn.m4;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
 
 /**
  * Created by vlisn on 9/24/2017.
  */
 
 public class Login extends AppCompatActivity {
-    AppCompatActivity activity = Login.this;
+
     Button loginB, cancelB;
-    EditText etUsername, etPassword;
-    DatabaseHelper dbHelper;
+    EditText etEmail, etPassword;
+    FirebaseAuth auth;
+    ProgressBar progressBar;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        auth = FirebaseAuth.getInstance();
+
+        if (auth.getCurrentUser() != null) {
+            startActivity(new Intent(Login.this, MainActivity.class));
+            finish();
+        }
+
         setContentView(R.layout.login_main);
 
-        etUsername = (EditText) findViewById(R.id.username);
+        //Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        //setSupportActionBar(toolbar);
+
+        etEmail = (EditText) findViewById(R.id.email);
         etPassword = (EditText) findViewById(R.id.password);
-        loginB = (Button) findViewById(R.id.loginB);
+        //progressBar = (ProgressBar) findViewById(R.id.progressBar);
+        loginB = (Button) findViewById(R.id.loginButton);
         cancelB = (Button) findViewById(R.id.cancelButton);
-        dbHelper = new DatabaseHelper(activity);
 
-    }
-    public void displayWelcome(View view) {
-        if (dbHelper.checkUser(etUsername.getText().toString(), etPassword.getText().toString())) {
-            Intent intent = new Intent(Login.this, Welcome.class);
-            startActivity(intent);
-        } else { //error
-            Context context = getApplicationContext();
-            CharSequence text = "Incorrect username or password!";
-            int duration = Toast.LENGTH_SHORT;
+        auth = FirebaseAuth.getInstance();
 
-            Toast toast = Toast.makeText(context, text, duration);
-            toast.show();
-        }
+        cancelB.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(Login.this, MainActivity.class));
+            }
+        });
 
-    }
-    public void displayMain(View view) {
-        Intent intent = new Intent(Login.this, MainActivity.class);
-        startActivity(intent);
-    }
+        loginB.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String email = etEmail.getText().toString();
+                final String password = etPassword.getText().toString();
 
-  /*          public void onClick(View v) {
-                switch(v.getId()) {
-            case R.id.loginB:
-                if((etUsername.equals("user")) && etPassword.equals("pass")) {
-                    startActivity(new Intent(this, Welcome.class));
-                } else {
-                    //error
-                    Context context = getApplicationContext();
-                    CharSequence text = "Incorrect username or password!";
-                    int duration = Toast.LENGTH_SHORT;
-
-                    Toast toast = Toast.makeText(context, text, duration);
-                    toast.show();
+                if (TextUtils.isEmpty(email)) {
+                    Toast.makeText(getApplicationContext(), "Enter email, please!", Toast.LENGTH_SHORT);
+                    return;
                 }
-                break;
-            case R.id.cancelButton:
-                startActivity(new Intent(this, MainActivity.class));
-                break;
-        }
-    }*/
 
+                if (TextUtils.isEmpty(password)) {
+                    Toast.makeText(getApplicationContext(), "Enter password, please!", Toast.LENGTH_SHORT);
+                    return;
+                }
+
+                //progressBar.setVisibility(View.VISIBLE);
+
+                auth.signInWithEmailAndPassword(email, password)
+                        .addOnCompleteListener(Login.this, new OnCompleteListener<AuthResult>() {
+                            @Override
+                            public void onComplete(@NonNull Task<AuthResult> task) {
+                                //progressBar.setVisibility(View.GONE);
+                                if (!task.isSuccessful()) {
+                                    Toast.makeText(Login.this, getString(R.string.auth_failed), Toast.LENGTH_LONG).show();
+                                } else {
+                                    Intent intent = new Intent(Login.this, Welcome.class);
+                                    startActivity(intent);
+                                    finish();
+                                }
+                            }
+                        });
+            }
+        });
+    }
 }
