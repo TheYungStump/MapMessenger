@@ -18,8 +18,14 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.Map;
 
 import static android.R.attr.value;
 
@@ -33,6 +39,7 @@ public class Login extends AppCompatActivity {
     EditText etEmail, etPassword;
     private DatabaseReference mFirebaseDatabase;
     private FirebaseDatabase mFirebaseInstance;
+    boolean exists;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -51,7 +58,7 @@ public class Login extends AppCompatActivity {
         mFirebaseInstance = FirebaseDatabase.getInstance();
 
         // get reference to 'users' node
-        mFirebaseDatabase = mFirebaseInstance.getReference("users");
+        mFirebaseDatabase = mFirebaseInstance.getReference();
 
 
         cancelB.setOnClickListener(new View.OnClickListener() {
@@ -64,10 +71,54 @@ public class Login extends AppCompatActivity {
         loginB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String email = etEmail.getText().toString();
+                final String email = etEmail.getText().toString();
                 final String password = etPassword.getText().toString();
 
-               
+                mFirebaseDatabase.child("users")
+                        .addChildEventListener(new ChildEventListener() {
+                            @Override
+                            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                                if (dataSnapshot.hasChildren()) {
+                                    boolean exists = false;
+                                    User details = dataSnapshot.getValue(User.class);
+                                    if(details.getEmail().equals(email) && details.getPassword().equals(password)) {
+                                        exists = true;
+                                        if (exists) {
+                                            startActivity(new Intent(Login.this, Welcome.class));
+                                        }
+                                    }
+
+                                }
+                                if (!exists) {
+                                    Context context = getApplicationContext();
+                                    CharSequence text = "email or password does not exist!";
+                                    int duration = Toast.LENGTH_SHORT;
+                                    Toast toast = Toast.makeText(context, text, duration);
+                                    toast.show();
+                                }
+                            }
+
+                            @Override
+                            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+
+                            }
+
+                            @Override
+                            public void onChildRemoved(DataSnapshot dataSnapshot) {
+
+                            }
+
+                            @Override
+                            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+                            }
+
+                            @Override
+                            public void onCancelled(DatabaseError databaseError) {
+
+                            }
+                        });
+
+
             }
         });
     }
