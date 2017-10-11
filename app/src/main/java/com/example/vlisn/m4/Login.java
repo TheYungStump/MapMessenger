@@ -39,7 +39,6 @@ public class Login extends AppCompatActivity {
     EditText etEmail, etPassword;
     private DatabaseReference mFirebaseDatabase;
     private FirebaseDatabase mFirebaseInstance;
-    //boolean exists = true;
     User details;
     String email;
     String password;
@@ -58,9 +57,6 @@ public class Login extends AppCompatActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login_main);
-
-        //Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        //setSupportActionBar(toolbar);
 
         etEmail = (EditText) findViewById(R.id.email);
         etPassword = (EditText) findViewById(R.id.password);
@@ -91,8 +87,7 @@ public class Login extends AppCompatActivity {
                         .addValueEventListener(new ValueEventListener() {
                             @Override
                             public void onDataChange(DataSnapshot dataSnapshot) {
-                                //System.out.println(email);
-                                //System.out.println(password);
+
                                 if (dataSnapshot.exists()) {
                                     //System.out.println("reached with email " + dataSnapshot.child("email"));
                                     String emaildata = dataSnapshot.child("email").toString();
@@ -108,17 +103,6 @@ public class Login extends AppCompatActivity {
                                         Toast toast = Toast.makeText(context, text, duration);
                                         toast.show();
                                     }
-                                }
-
-
-
-                            }
-
-                            @Override
-                            public void onCancelled(DatabaseError databaseError) {
-
-                            }
-                        });
 
 //                mFirebaseDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
 //                    @Override
@@ -177,9 +161,11 @@ public class Login extends AppCompatActivity {
 //                    Toast toast = Toast.makeText(context, text, duration);
 //                    toast.show();
 //                    //exists[0] = false;
-//                }
-
-            }
-        });
+/
     }
-}
+
+                            @Override
+                            public void onCancelled(DatabaseError databaseError) {
+
+                            }
+                        });
