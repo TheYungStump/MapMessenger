@@ -78,31 +78,49 @@ public class Login extends AppCompatActivity {
         });
 
         loginB.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                email = etEmail.getText().toString().trim();
-                password = etPassword.getText().toString().trim();
+          @Override
+          public void onClick(View v) {
+              email = etEmail.getText().toString().trim();
+              password = etPassword.getText().toString().trim();
 
-                mFirebaseDatabase.child("users").child(email.substring(0, email.indexOf('@')))
-                        .addValueEventListener(new ValueEventListener() {
-                            @Override
-                            public void onDataChange(DataSnapshot dataSnapshot) {
+              mFirebaseDatabase.child("users").child(email.substring(0, email.indexOf('@')))
+                      .addValueEventListener(new ValueEventListener() {
+                          @Override
+                          public void onDataChange(DataSnapshot dataSnapshot) {
 
-                                if (dataSnapshot.exists()) {
-                                    //System.out.println("reached with email " + dataSnapshot.child("email"));
-                                    String emaildata = dataSnapshot.child("email").toString();
-                                    String passworddata = dataSnapshot.child("password").toString();
-                                    if (emaildata.equals(email) && passworddata.equals(password)) {
-                                        //System.out.println("reached with email " + dataSnapshot.child("email"));
-                                        //System.out.println(dataSnapshot.child("password"));
-                                        startActivity(new Intent(Login.this, Welcome.class));
-                                    } else {
-                                        Context context = getApplicationContext();
-                                        CharSequence text = "email or password does not exist!";
-                                        int duration = Toast.LENGTH_SHORT;
-                                        Toast toast = Toast.makeText(context, text, duration);
-                                        toast.show();
-                                    }
+                              if (dataSnapshot.exists()) {
+                                  //System.out.println("reached with email " + dataSnapshot.child("email"));
+                                  String emaildata = dataSnapshot.child("email").getValue().toString().trim();
+                                  String passworddata = dataSnapshot.child("password").getValue().toString().trim();
+                                  /*System.out.println ("hello!" + email + ", " + emaildata);
+                                  System.out.println(email.equals(emaildata));
+                                  System.out.println ("hellllo!" + password + ", " + passworddata);
+                                  System.out.println(password.equals(passworddata));*/
+                                  if (emaildata.equals(email) && passworddata.equals(password)) {
+                                      //System.out.println("reached with email " + dataSnapshot.child("email"));
+                                      //System.out.println(dataSnapshot.child("password"));
+                                      startActivity(new Intent(Login.this, Welcome.class));
+                                  } else {
+                                      Context context = getApplicationContext();
+                                      CharSequence text = "email or password does not exist!";
+                                      int duration = Toast.LENGTH_SHORT;
+                                      Toast toast = Toast.makeText(context, text, duration);
+                                      toast.show();
+                                  }
+                              }
+                          }
+
+                          @Override
+                          public void onCancelled(DatabaseError databaseError) {
+                              return;
+
+                          }
+                      });
+          }
+      });
+    }
+}
+
 
 //                mFirebaseDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
 //                    @Override
@@ -161,11 +179,4 @@ public class Login extends AppCompatActivity {
 //                    Toast toast = Toast.makeText(context, text, duration);
 //                    toast.show();
 //                    //exists[0] = false;
-/
-    }
 
-                            @Override
-                            public void onCancelled(DatabaseError databaseError) {
-
-                            }
-                        });
