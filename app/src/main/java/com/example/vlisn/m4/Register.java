@@ -1,5 +1,6 @@
 package com.example.vlisn.m4;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -9,6 +10,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.text.TextUtils;
 import android.widget.RadioButton;
+import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -44,6 +46,7 @@ public class Register extends AppCompatActivity {
         etName = (EditText) findViewById(R.id.name);
         bCreate = (Button) findViewById(R.id.buttonCreate);
         bCancel = (Button) findViewById(R.id.buttonCancel);
+
         final RadioButton adminButton = (RadioButton) findViewById(R.id.adminButton);
         RadioButton userButton = (RadioButton) findViewById(R.id.userButton);
         mAuth = FirebaseAuth.getInstance();
@@ -83,6 +86,14 @@ public class Register extends AppCompatActivity {
                 String name = etName.getText().toString().trim();
                 String email = etEmail.getText().toString().trim();
                 String password = etPassword.getText().toString().trim();
+                if (name.equals("") || email.equals("") || password.equals("")) {
+                    Context context = getApplicationContext();
+                    CharSequence text = "Enter your name, email, and password!";
+                    int duration = Toast.LENGTH_SHORT;
+                    Toast toast = Toast.makeText(context, text, duration);
+                    toast.show();
+                    return;
+                }
                 boolean access = false;
                     if (adminButton.isChecked()) {
                         access = true;
