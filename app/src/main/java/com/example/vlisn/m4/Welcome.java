@@ -12,14 +12,17 @@ import android.widget.Button;
 
 public class Welcome extends AppCompatActivity implements View.OnClickListener {
     Button logoutB;
+    Button rat_data;
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.welcome);
 
         logoutB = (Button) findViewById(R.id.logout);
+        rat_data = (Button) findViewById(R.id.rat_data);
 
         logoutB.setOnClickListener(this);
+        rat_data.setOnClickListener(this);
 
     }
 
@@ -27,6 +30,10 @@ public class Welcome extends AppCompatActivity implements View.OnClickListener {
         switch(v.getId()) {
             case R.id.logout:
                 startActivity(new Intent(this, MainActivity.class));
+                break;
+            case R.id.rat_data:
+                System.out.println("reached data screen");
+                startActivity(new Intent(this, RatData.class));
                 break;
         }
     }
