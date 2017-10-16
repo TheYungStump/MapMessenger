@@ -32,7 +32,7 @@ public class Welcome extends AppCompatActivity implements View.OnClickListener {
                 startActivity(new Intent(this, MainActivity.class));
                 break;
             case R.id.rat_data:
-                System.out.println("reached data screen");
+                System.out.println("");
                 startActivity(new Intent(this, RatData.class));
                 break;
         }
