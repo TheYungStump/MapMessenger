@@ -33,18 +33,20 @@ public class RatData extends AppCompatActivity  {
     private final Activity thisActivity = this;
     public static int args;
 
+    /**
+     * automatically read csv file & displays keys
+     * @param savedInstanceState bundle object used upon creation
+     */
+
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.rat_data);
+        //tries to read in csv file
         try {
-            System.out.println("reached b4 reading");
             InputStream inputStream = getResources().openRawResource(R.raw.ratsightings);
             CSVReader reader = new CSVReader(new InputStreamReader(inputStream));
-            System.out.println("reached after reading");
             String nextLine[];
             while ((nextLine = reader.readNext()) != null) {
-                // nextLine[] is an array of values from the line
-                //System.out.println("unique key: " + nextLine[0]);
                 ratList.add(nextLine[0]);
             }
         } catch(IOException e) {
@@ -55,12 +57,12 @@ public class RatData extends AppCompatActivity  {
                 R.layout.activity_listview, ratList);
         ratData = (ListView) findViewById(R.id.ratData);
         ratData.setAdapter(adapter);
+        //when clicked, go to displayRatData activity
         ratData.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
             @Override
             public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
                                     long arg3) {
-                //Toast.makeText(getApplicationContext(), "The winner is:" + arg0.getAdapter().getItem(arg2), Toast.LENGTH_SHORT).show();
                 startActivity(new Intent(thisActivity, displayRatData.class));
                 args = arg2;
             }
