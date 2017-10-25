@@ -50,16 +50,8 @@ public class RatData extends AppCompatActivity implements View.OnClickListener {
         addB.setOnClickListener(this);
         //tries to read in csv file
         try {
-<<<<<<< HEAD
             InputStream inputStream = getResources().openRawResource(R.raw.fiveratsightings);
-=======
-<<<<<<< HEAD
             System.out.println("reached b4 reading");
-            InputStream inputStream = getResources().openRawResource(R.raw.five_rat_sightings);
-=======
-            InputStream inputStream = getResources().openRawResource(R.raw.ratsightings);
->>>>>>> e4f0499e62cd9809aa834a3988c6f4f28190efcd
->>>>>>> a6cd742ec67568766f2da92f0f6a3ed1c433804d
             CSVReader reader = new CSVReader(new InputStreamReader(inputStream));
             String nextLine[];
             while ((nextLine = reader.readNext()) != null) {
