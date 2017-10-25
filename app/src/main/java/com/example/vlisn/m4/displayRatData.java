@@ -23,6 +23,10 @@ public class displayRatData extends AppCompatActivity{
     ListView ratData;
     List<String> ratList = new ArrayList<String>();
 
+    /**
+     * displays information about each key upon clicking on it
+     * @param savedInstanceState bundle object that is passed on creation
+     */
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.display_rat_data);
@@ -37,6 +41,7 @@ public class displayRatData extends AppCompatActivity{
             for (int i = 0; i < args; i ++) {
                 nextNextLine = reader.readNext();
             }
+            //displays the required data
             if (nextNextLine[1] != null ) {
                 ratList.add(nextLine[1] + ": " + nextNextLine[1]);
             } else {
@@ -77,13 +82,6 @@ public class displayRatData extends AppCompatActivity{
             } else {
                 ratList.add(nextLine[25] + ": " + " ");
             }
-            //ratList.add(nextLine[7] + ": " + reader.readNext()[7]);
-            //ratList.add(nextLine[8] + ": " + reader.readNext()[8]);
-            //ratList.add(nextLine[9] + ": " + reader.readNext()[9]);
-            //ratList.add(nextLine[16] + ": " + reader.readNext()[16]);
-            //ratList.add(nextLine[23] + ": " + reader.readNext()[23]);
-            //ratList.add(nextLine[24] + ": " + reader.readNext()[24]);
-            //ratList.add(nextLine[25] + ": " + reader.readNext()[25]);
 
         } catch(IOException e) {
             e.printStackTrace();
