@@ -38,7 +38,7 @@ public class RatData extends AppCompatActivity  {
         setContentView(R.layout.rat_data);
         try {
             System.out.println("reached b4 reading");
-            InputStream inputStream = getResources().openRawResource(R.raw.ratsightings);
+            InputStream inputStream = getResources().openRawResource(R.raw.five_rat_sightings);
             CSVReader reader = new CSVReader(new InputStreamReader(inputStream));
             System.out.println("reached after reading");
             String nextLine[];
