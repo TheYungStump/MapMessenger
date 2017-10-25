@@ -36,6 +36,10 @@
             android:name=".displayRatData"
             android:label="M4">
         </activity>
+        <activity
+            android:name=".RatRegister"
+            android:label="M4">
+        </activity>
     </application>
 
 </manifest>

@@ -10,6 +10,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -21,35 +22,41 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import android.view.View;
 import java.util.List;
 
 /**
  * Created by Divya on 10/14/2017.
  */
 
-public class RatData extends AppCompatActivity  {
+public class RatData extends AppCompatActivity implements View.OnClickListener {
     ListView ratData;
+    Button addB;
     List<String> ratList = new ArrayList<String>();
     private final Activity thisActivity = this;
     public static int args;
 
     /**
      * automatically read csv file & displays keys
+     *
      * @param savedInstanceState bundle object used upon creation
      */
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.rat_data);
+
+        addB = (Button) findViewById(R.id.add);
+        addB.setOnClickListener(this);
         //tries to read in csv file
         try {
-            InputStream inputStream = getResources().openRawResource(R.raw.ratsightings);
+            InputStream inputStream = getResources().openRawResource(R.raw.fiveratsightings);
             CSVReader reader = new CSVReader(new InputStreamReader(inputStream));
             String nextLine[];
             while ((nextLine = reader.readNext()) != null) {
                 ratList.add(nextLine[0]);
             }
-        } catch(IOException e) {
+        } catch (IOException e) {
             e.printStackTrace();
         }
 
@@ -67,5 +74,14 @@ public class RatData extends AppCompatActivity  {
                 args = arg2;
             }
         });
+    }
+
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.add:
+                System.out.println("reached add button");
+                startActivity(new Intent(this, RatRegister.class));
+        }
+
     }
 }
