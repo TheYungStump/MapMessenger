@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * used to display the rat data
  * Created by Divya on 10/17/2017.
  */
 
@@ -22,6 +23,8 @@ public class displayRatData extends AppCompatActivity{
     int args = RatData.args;
     ListView ratData;
     List<String> ratList = new ArrayList<String>();
+    ArrayList addRats = RatRegister.ratList;
+
 
     /**
      * displays information about each key upon clicking on it
@@ -38,49 +41,102 @@ public class displayRatData extends AppCompatActivity{
             System.out.println("Count: " + args);
             nextLine = reader.readNext();
             nextNextLine = nextLine;
-            for (int i = 0; i < args; i ++) {
-                nextNextLine = reader.readNext();
+            if (args > 7) {
+                args = args - 7;
+                System.out.println("args" + args);
+                int offset = 0;
+                for (int i = 1; i < args * 9; i = i + 9) {
+                    offset = i;
+                    System.out.println(i);
+                }
+                System.out.println("i: " + offset);
+                if (addRats.get(offset) != null ) {
+                    ratList.add(nextLine[1] + ": " + addRats.get(offset));
+                } else {
+                    ratList.add(nextLine[1] + ": " + " ");
+                }
+                if (addRats.get(offset + 1) != null ) {
+                    ratList.add(nextLine[7] + ": " + addRats.get(offset + 1));
+                } else {
+                    ratList.add(nextLine[7] + ": " + " ");
+                }
+                if (addRats.get(offset + 2) != null ) {
+                    ratList.add(nextLine[8] + ": " + addRats.get(offset + 2));
+                } else {
+                    ratList.add(nextLine[8] + ": " + " ");
+                }
+                if (addRats.get(offset + 3) != null ) {
+                    ratList.add(nextLine[9] + ": " + addRats.get(offset + 3));
+                } else {
+                    ratList.add(nextLine[9] + ": " + " ");
+                }
+                if (addRats.get(offset + 4) != null ) {
+                    ratList.add(nextLine[16] + ": " + addRats.get(offset + 4));
+                } else {
+                    ratList.add(nextLine[16] + ": " + " ");
+                }
+                if (addRats.get(offset + 5) != null ) {
+                    ratList.add(nextLine[23] + ": " + addRats.get(offset + 5));
+                } else {
+                    ratList.add(nextLine[23] + ": " + " ");
+                }
+                if (addRats.get(offset + 6) != null ) {
+                    ratList.add(nextLine[24] + ": " + addRats.get(offset + 6));
+                } else {
+                    ratList.add(nextLine[24] + ": " + " ");
+                }
+                if (addRats.get(offset + 7) != null ) {
+                    ratList.add(nextLine[25] + ": " + addRats.get(offset + 7));
+                } else {
+                    ratList.add(nextLine[25] + ": " + " ");
+                }
+
             }
-            //displays the required data
-            if (nextNextLine[1] != null ) {
-                ratList.add(nextLine[1] + ": " + nextNextLine[1]);
-            } else {
-                ratList.add(nextLine[1] + ": " + " ");
-            }
-            if (nextNextLine[7] != null ) {
-                ratList.add(nextLine[7] + ": " + nextNextLine[7]);
-            } else {
-                ratList.add(nextLine[7] + ": " + " ");
-            }
-            if (nextNextLine[8] != null ) {
-                ratList.add(nextLine[8] + ": " + nextNextLine[8]);
-            } else {
-                ratList.add(nextLine[8] + ": " + " ");
-            }
-            if (nextNextLine[9] != null ) {
-                ratList.add(nextLine[9] + ": " + nextNextLine[9]);
-            } else {
-                ratList.add(nextLine[9] + ": " + " ");
-            }
-            if (nextNextLine[16] != null ) {
-                ratList.add(nextLine[16] + ": " + nextNextLine[16]);
-            } else {
-                ratList.add(nextLine[16] + ": " + " ");
-            }
-            if (nextNextLine[23] != null ) {
-                ratList.add(nextLine[23] + ": " + nextNextLine[23]);
-            } else {
-                ratList.add(nextLine[23] + ": " + " ");
-            }
-            if (nextNextLine[24] != null ) {
-                ratList.add(nextLine[24] + ": " + nextNextLine[24]);
-            } else {
-                ratList.add(nextLine[24] + ": " + " ");
-            }
-            if (nextNextLine[25] != null ) {
-                ratList.add(nextLine[25] + ": " + nextNextLine[25]);
-            } else {
-                ratList.add(nextLine[25] + ": " + " ");
+            else {
+                for (int i = 0; i < args; i++) {
+                    nextNextLine = reader.readNext();
+                }
+                //displays the required data
+                if (nextNextLine[1] != null) {
+                    ratList.add(nextLine[1] + ": " + nextNextLine[1]);
+                } else {
+                    ratList.add(nextLine[1] + ": " + " ");
+                }
+                if (nextNextLine[7] != null) {
+                    ratList.add(nextLine[7] + ": " + nextNextLine[7]);
+                } else {
+                    ratList.add(nextLine[7] + ": " + " ");
+                }
+                if (nextNextLine[8] != null) {
+                    ratList.add(nextLine[8] + ": " + nextNextLine[8]);
+                } else {
+                    ratList.add(nextLine[8] + ": " + " ");
+                }
+                if (nextNextLine[9] != null) {
+                    ratList.add(nextLine[9] + ": " + nextNextLine[9]);
+                } else {
+                    ratList.add(nextLine[9] + ": " + " ");
+                }
+                if (nextNextLine[16] != null) {
+                    ratList.add(nextLine[16] + ": " + nextNextLine[16]);
+                } else {
+                    ratList.add(nextLine[16] + ": " + " ");
+                }
+                if (nextNextLine[23] != null) {
+                    ratList.add(nextLine[23] + ": " + nextNextLine[23]);
+                } else {
+                    ratList.add(nextLine[23] + ": " + " ");
+                }
+                if (nextNextLine[24] != null) {
+                    ratList.add(nextLine[24] + ": " + nextNextLine[24]);
+                } else {
+                    ratList.add(nextLine[24] + ": " + " ");
+                }
+                if (nextNextLine[25] != null) {
+                    ratList.add(nextLine[25] + ": " + nextNextLine[25]);
+                } else {
+                    ratList.add(nextLine[25] + ": " + " ");
+                }
             }
 
         } catch(IOException e) {

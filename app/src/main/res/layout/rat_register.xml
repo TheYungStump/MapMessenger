@@ -11,7 +11,7 @@
         android:text="Created Date" />
 
     <EditText
-        android:id="@+id/editText6"
+        android:id="@+id/createData"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="10"
@@ -24,7 +24,7 @@
         android:text="Location Type" />
 
     <EditText
-        android:id="@+id/editText7"
+        android:id="@+id/locationType"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="10"
@@ -37,14 +37,14 @@
         android:text="Incident Zip" />
 
     <TextView
-        android:id="@+id/textView12"
+        android:id="@+id/textView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
     <EditText
-        android:id="@+id/editText8"
+        android:id="@+id/incidentZip"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="32dp"
         android:ems="10"
         android:inputType="textPersonName" />
 
@@ -55,7 +55,7 @@
         android:text="Incident Address" />
 
     <EditText
-        android:id="@+id/editText9"
+        android:id="@+id/incidentAddress"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="10"
@@ -68,7 +68,7 @@
         android:text="City" />
 
     <EditText
-        android:id="@+id/editText10"
+        android:id="@+id/city"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="10"
@@ -81,7 +81,7 @@
         android:text="Borough" />
 
     <EditText
-        android:id="@+id/editText11"
+        android:id="@+id/borough"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="10"
@@ -94,7 +94,7 @@
         android:text="Latitude" />
 
     <EditText
-        android:id="@+id/editText12"
+        android:id="@+id/latitude"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="10"
@@ -107,7 +107,7 @@
         android:text="Longitude" />
 
     <EditText
-        android:id="@+id/editText13"
+        android:id="@+id/longitude"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="10"

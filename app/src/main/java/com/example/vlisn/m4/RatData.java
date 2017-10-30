@@ -21,20 +21,24 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import android.view.View;
 import java.util.List;
 
 /**
+ * displays the keys of the rat data
  * Created by Divya on 10/14/2017.
  */
 
 public class RatData extends AppCompatActivity implements View.OnClickListener {
     ListView ratData;
     Button addB;
+    Button mapB;
     List<String> ratList = new ArrayList<String>();
     private final Activity thisActivity = this;
     public static int args;
+    ArrayList addRats = RatRegister.ratList;
 
     /**
      * automatically read csv file & displays keys
@@ -46,25 +50,30 @@ public class RatData extends AppCompatActivity implements View.OnClickListener {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.rat_data);
 
+        System.out.println(addRats);
+
         addB = (Button) findViewById(R.id.add);
+        mapB = (Button) findViewById(R.id.map);
         addB.setOnClickListener(this);
+        mapB.setOnClickListener(this);
         //tries to read in csv file
         try {
-<<<<<<< HEAD
             InputStream inputStream = getResources().openRawResource(R.raw.fiveratsightings);
-=======
-<<<<<<< HEAD
             System.out.println("reached b4 reading");
-            InputStream inputStream = getResources().openRawResource(R.raw.five_rat_sightings);
-=======
-            InputStream inputStream = getResources().openRawResource(R.raw.ratsightings);
->>>>>>> e4f0499e62cd9809aa834a3988c6f4f28190efcd
->>>>>>> a6cd742ec67568766f2da92f0f6a3ed1c433804d
             CSVReader reader = new CSVReader(new InputStreamReader(inputStream));
             String nextLine[];
             while ((nextLine = reader.readNext()) != null) {
                 ratList.add(nextLine[0]);
             }
+            if(!addRats.isEmpty()) {
+                int i = 0;
+                while (i < addRats.size()) {
+                    System.out.println("key: " + addRats.get(0));
+                    ratList.add((String) addRats.get(i));
+                    i = i + 9;
+                }
+            }
+
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -90,6 +99,8 @@ public class RatData extends AppCompatActivity implements View.OnClickListener {
             case R.id.add:
                 System.out.println("reached add button");
                 startActivity(new Intent(this, RatRegister.class));
+            case R.id.map:
+                startActivity(new Intent(this, MapsActivity.class));
         }
 
     }
