@@ -21,16 +21,26 @@ public class Rat {
 
     public Rat(String uniqueKey, String createdDate, String locationType, String incidentZip, String incidentAddress,
                String city, String borough, String latitude, String longitude) {
-        this.uniqueKey = uniqueKey;
-        this.createdDate = createdDate;
-        this.locationType = locationType;
-        this.incidentZip= incidentZip;
-        this.incidentAddress = incidentAddress;
-        this.city = city;
-        this.borough = borough;
-        this.latitude = latitude;
-        this.longitude = longitude;
+        setUniqueKey(uniqueKey);
+        setCreatedDate(createdDate);
+        setLocationType(locationType);
+        setBorough(borough);
+        setIncidentZip(incidentZip);
+        setIncidentAddress(incidentAddress);
+        setCity(city);
+        setBorough(borough);
+        setLatitude(latitude);
+        setLongitude(longitude);
     }
+    public void setUniqueKey(String uniqueKey) { this.uniqueKey = uniqueKey;}
+    public void setCreatedDate(String createdDate) { this.createdDate = createdDate;;}
+    public void setLocationType(String locationType) { this.locationType = locationType;}
+    public void setIncidentZip(String incidentZip) { this.incidentZip= incidentZip;}
+    public void setIncidentAddress(String incidentAddress) { this.incidentAddress = incidentAddress;}
+    public void setCity(String city){ this.city = city;}
+    public void setBorough(String borough){this.borough = borough;}
+    public void setLatitude(String latitude){ this.latitude = latitude;}
+    public void setLongitude(String longitude){this.longitude = longitude;}
     public String getUniqueKey() { return uniqueKey;}
     public String getCreatedDate() { return createdDate;}
     public String getLocationType() { return locationType;}
@@ -40,6 +50,7 @@ public class Rat {
     public String getBorough(){return borough;}
     public String getLatitude(){return latitude;}
     public String getLongitude(){return longitude;}
+
 
 
 }

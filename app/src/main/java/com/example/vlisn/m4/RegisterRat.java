@@ -34,7 +34,6 @@ public class RegisterRat extends AppCompatActivity{
     Button ratCreate, ratCancel;
     EditText createdDate, locationType, incidentZip, incidentAddress, city,borough,latitude, longitude;
     FirebaseAuth mAuth;
-    int args = RatData.args;
 
     private DatabaseReference mFirebaseDatabase;
     private FirebaseDatabase mFirebaseInstance;
@@ -95,7 +94,6 @@ public class RegisterRat extends AppCompatActivity{
         ratCreate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String uniquekey = "";
                 String realcreatedDate = createdDate.getText().toString().trim();
                 String realLocationType= locationType.getText().toString().trim();
                 String realincidentZip= incidentZip.getText().toString().trim();
@@ -118,70 +116,7 @@ public class RegisterRat extends AppCompatActivity{
                     return;
                 } else {
                     System.out.println("errrroeoeeerq4");
-                    try {
-                        InputStream inputStream = getResources().openRawResource(R.raw.fiveratsightings);
-                        CSVReader reader = new CSVReader(new InputStreamReader(inputStream));
-                        String nextLine[];
-                        String nextNextLine[];
-                        System.out.println("Count: " + args);
-                        nextLine = reader.readNext();
-                        nextNextLine = nextLine;
-                        String line ="";
-                        System.out.println(nextNextLine);
-                      //for (int i = 0; i < 100; i++) {
-                          nextNextLine = reader.readNext();
-                          //displays the required data
-                            if (nextNextLine[0] != null) {
-                                uniquekey = nextNextLine[0];
-                            } else {
-                                uniquekey = " ";
-                            }
-                            if (nextNextLine[1] != null) {
-                                realcreatedDate = nextNextLine[1];
-                            } else {
-                                realcreatedDate = " ";
-                            }
-                            if (nextNextLine[7] != null) {
-                                realLocationType = nextNextLine[7];
-                            } else {
-                                realLocationType = " ";
-                            }
-                            if (nextNextLine[8] != null) {
-                                realincidentAddress = nextNextLine[8];
-                            } else {
-                                realincidentAddress = " ";
-                            }
-                            if (nextNextLine[9] != null) {
-                                realincidentZip = nextNextLine[9];
-                            } else {
-                                realincidentZip = " ";
-                            }
-                            if (nextNextLine[16] != null) {
-                                realcity = nextNextLine[16];
-                            } else {
-                                realcity = " ";
-                            }
-                            if (nextNextLine[23] != null) {
-                                realborough = nextNextLine[23];
-                            } else {
-                                realborough = " ";
-                            }
-                            if (nextNextLine[49] != null) {
-                                reallatitude = nextNextLine[49];
-                            } else {
-                                reallatitude = " ";
-                            }
-                            if (nextNextLine[50] != null) {
-                                reallongitude = nextNextLine[50];
-                            } else {
-                                reallongitude = " ";
-                            }
-                    } catch(IOException e) {
-                        e.printStackTrace();
-                        System.out.println("errrroeoeeer");
-                    }
-
-                    createRat(uniquekey, realcreatedDate, realLocationType, realincidentZip,
+                    createRat(ratId, realcreatedDate, realLocationType, realincidentZip,
                                     realincidentAddress, realcity, realborough, reallatitude, reallongitude);
                         }
                         Intent intent = new Intent(RegisterRat.this, Welcome.class);
@@ -203,7 +138,7 @@ public class RegisterRat extends AppCompatActivity{
     /**
      * Creating new user node under 'users'
      */
-    private void createRat(String uniquekey, String realcreatedDate, String realLocationType , String realincidentZip, String realincidentAddress, String realcity,
+    private void createRat(String ratId, String realcreatedDate, String realLocationType , String realincidentZip, String realincidentAddress, String realcity,
                            String realborough, String reallatitude, String reallongitude) {
         // TODO
         // In real apps this userId should be fetched
@@ -215,7 +150,7 @@ public class RegisterRat extends AppCompatActivity{
                 char c = chars[random.nextInt(chars.length)];
                 sb.append(c);
             }
-            ratId = uniquekey;
+            ratId = sb.toString();
 
         Rat rat = new Rat(ratId, realcreatedDate, realLocationType,realincidentZip, realincidentAddress ,realcity, realborough, reallatitude, reallongitude);
 
