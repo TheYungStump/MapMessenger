@@ -57,6 +57,7 @@ public class Register extends AppCompatActivity {
         // get reference to 'users' node
         mFirebaseDatabase = mFirebaseInstance.getReference("users");
 
+
         // store app title to 'app_title' node
         mFirebaseInstance.getReference("app_title").setValue("M5");
 
@@ -86,9 +87,9 @@ public class Register extends AppCompatActivity {
                 String name = etName.getText().toString().trim();
                 String email = etEmail.getText().toString().trim();
                 String password = etPassword.getText().toString().trim();
-                if (name.equals("") || email.equals("") || password.equals("")) {
+                if (name.equals("") || !name.matches("[a-zA-Z]+") || email.equals("") || password.equals("")) {
                     Context context = getApplicationContext();
-                    CharSequence text = "Enter your name, email, and password!";
+                    CharSequence text = "Enter a valid name, email, and password!";
                     int duration = Toast.LENGTH_SHORT;
                     Toast toast = Toast.makeText(context, text, duration);
                     toast.show();

@@ -82,9 +82,9 @@ public class Login extends AppCompatActivity {
           public void onClick(View v) {
               email = etEmail.getText().toString().trim();
               password = etPassword.getText().toString().trim();
-              if (email.equals("") || password.equals("")) {
+              if (email.equals("") || !email.contains("@") || password.equals("")) {
                   Context context = getApplicationContext();
-                  CharSequence text = "Enter an email and/or password";
+                  CharSequence text = "Enter a valid email and/or password";
                   int duration = Toast.LENGTH_SHORT;
                   Toast toast = Toast.makeText(context, text, duration);
                   toast.show();
@@ -107,13 +107,12 @@ public class Login extends AppCompatActivity {
                                       //System.out.println("reached with email " + dataSnapshot.child("email"));
                                       //System.out.println(dataSnapshot.child("password"));
                                       startActivity(new Intent(Login.this, Welcome.class));
-                                  }
-                                  else {
-                                      Context context = getApplicationContext();
-                                      CharSequence text = "Email or password does not exist!";
-                                      int duration = Toast.LENGTH_SHORT;
-                                      Toast toast = Toast.makeText(context, text, duration);
-                                      toast.show();
+                                  } else {
+                                        Context context = getApplicationContext();
+                                        CharSequence text = "Email or password does not exist!";
+                                        int duration = Toast.LENGTH_SHORT;
+                                        Toast toast = Toast.makeText(context, text, duration);
+                                        toast.show();
                                   }
                               }
                           }
