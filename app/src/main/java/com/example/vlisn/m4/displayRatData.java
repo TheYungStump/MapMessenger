@@ -23,7 +23,6 @@ public class displayRatData extends AppCompatActivity{
     int args = RatData.args;
     ListView ratData;
     List<String> ratList = new ArrayList<String>();
-    ArrayList addRats = RatRegister.ratList;
 
 
     /**
@@ -50,46 +49,7 @@ public class displayRatData extends AppCompatActivity{
                     System.out.println(i);
                 }
                 System.out.println("i: " + offset);
-                if (addRats.get(offset) != null ) {
-                    ratList.add(nextLine[1] + ": " + addRats.get(offset));
-                } else {
-                    ratList.add(nextLine[1] + ": " + " ");
-                }
-                if (addRats.get(offset + 1) != null ) {
-                    ratList.add(nextLine[7] + ": " + addRats.get(offset + 1));
-                } else {
-                    ratList.add(nextLine[7] + ": " + " ");
-                }
-                if (addRats.get(offset + 2) != null ) {
-                    ratList.add(nextLine[8] + ": " + addRats.get(offset + 2));
-                } else {
-                    ratList.add(nextLine[8] + ": " + " ");
-                }
-                if (addRats.get(offset + 3) != null ) {
-                    ratList.add(nextLine[9] + ": " + addRats.get(offset + 3));
-                } else {
-                    ratList.add(nextLine[9] + ": " + " ");
-                }
-                if (addRats.get(offset + 4) != null ) {
-                    ratList.add(nextLine[16] + ": " + addRats.get(offset + 4));
-                } else {
-                    ratList.add(nextLine[16] + ": " + " ");
-                }
-                if (addRats.get(offset + 5) != null ) {
-                    ratList.add(nextLine[23] + ": " + addRats.get(offset + 5));
-                } else {
-                    ratList.add(nextLine[23] + ": " + " ");
-                }
-                if (addRats.get(offset + 6) != null ) {
-                    ratList.add(nextLine[24] + ": " + addRats.get(offset + 6));
-                } else {
-                    ratList.add(nextLine[24] + ": " + " ");
-                }
-                if (addRats.get(offset + 7) != null ) {
-                    ratList.add(nextLine[25] + ": " + addRats.get(offset + 7));
-                } else {
                     ratList.add(nextLine[25] + ": " + " ");
-                }
 
             }
             else {

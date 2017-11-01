@@ -57,6 +57,7 @@ public class Register extends AppCompatActivity {
         // get reference to 'users' node
         mFirebaseDatabase = mFirebaseInstance.getReference("users");
 
+
         // store app title to 'app_title' node
         mFirebaseInstance.getReference("app_title").setValue("M5");
 

@@ -35,10 +35,8 @@ public class RatData extends AppCompatActivity implements View.OnClickListener {
     ListView ratData;
     Button addB;
     Button mapB;
-    List<String> ratList = new ArrayList<String>();
     private final Activity thisActivity = this;
     public static int args;
-    ArrayList addRats = RatRegister.ratList;
 
     /**
      * automatically read csv file & displays keys
@@ -50,38 +48,18 @@ public class RatData extends AppCompatActivity implements View.OnClickListener {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.rat_data);
 
-        System.out.println(addRats);
 
         addB = (Button) findViewById(R.id.add);
         mapB = (Button) findViewById(R.id.map);
         addB.setOnClickListener(this);
         mapB.setOnClickListener(this);
         //tries to read in csv file
-        try {
             InputStream inputStream = getResources().openRawResource(R.raw.fiveratsightings);
             System.out.println("reached b4 reading");
             CSVReader reader = new CSVReader(new InputStreamReader(inputStream));
             String nextLine[];
-            while ((nextLine = reader.readNext()) != null) {
-                ratList.add(nextLine[0]);
-            }
-            if(!addRats.isEmpty()) {
-                int i = 0;
-                while (i < addRats.size()) {
-                    System.out.println("key: " + addRats.get(0));
-                    ratList.add((String) addRats.get(i));
-                    i = i + 9;
-                }
-            }
 
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        final ArrayAdapter adapter = new ArrayAdapter<>(this,
-                R.layout.activity_listview, ratList);
         ratData = (ListView) findViewById(R.id.ratData);
-        ratData.setAdapter(adapter);
         //when clicked, go to displayRatData activity
         ratData.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
@@ -98,7 +76,7 @@ public class RatData extends AppCompatActivity implements View.OnClickListener {
         switch (v.getId()) {
             case R.id.add:
                 System.out.println("reached add button");
-                startActivity(new Intent(this, RatRegister.class));
+                startActivity(new Intent(this, RegisterRat.class));
             case R.id.map:
                 startActivity(new Intent(this, MapsActivity.class));
         }
