@@ -36,7 +36,6 @@ public class RatData extends AppCompatActivity implements View.OnClickListener {
     Button mapB;
     private final Activity thisActivity = this;
     public static int args;
-    private DatabaseReference mFirebaseDatabase;
     private FirebaseDatabase mFirebaseInstance;
     ArrayAdapter<String> adapter;
 
@@ -55,6 +54,7 @@ public class RatData extends AppCompatActivity implements View.OnClickListener {
         mapB = (Button) findViewById(R.id.map);
         addB.setOnClickListener(this);
         mapB.setOnClickListener(this);
+
         final ListView ratData = (ListView) findViewById(R.id.ratData);
         final ArrayList<String> ratDatalist = new ArrayList<String>();
         DatabaseReference mFirebaseInstance1 = FirebaseDatabase.getInstance().getReference().child("rats");
