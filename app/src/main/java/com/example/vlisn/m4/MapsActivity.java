@@ -9,10 +9,23 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
 
     private GoogleMap mMap;
+    ArrayList<String> ratDates;
+    ArrayList<String>  longitude;
+    ArrayList<String> latitude;
+    ArrayList<String> key;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,9 +51,76 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
 
-        // Add a marker in Sydney and move the camera
-        LatLng sydney = new LatLng(-34, 151);
-        mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+        DatabaseReference mFirebaseInstance1 = FirebaseDatabase.getInstance().getReference().child("rats");
+
+        mFirebaseInstance1.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                getRatDates((Map<String, Object>) dataSnapshot.getValue());
+                //System.out.println("real rat dates: " + ratDates.get(0));
+
+                for (int i = 0; i < ratDates.size(); i++) {
+                    System.out.println("i: " + i + "; value: " + ratDates.get(i));
+                    int ratMonth = Integer.parseInt(ratDates.get(i).substring(0, ratDates.get(i).indexOf('/')));
+                    System.out.println("rat Month: " + ratMonth);
+                    int ratDay = Integer.parseInt(ratDates.get(i).substring(ratDates.get(i).indexOf('/') + 1, ratDates.get(i).lastIndexOf('/')));
+                    System.out.println("rat Day: " + ratDay);
+                    int ratYear = Integer.parseInt(ratDates.get(i).substring(ratDates.get(i).lastIndexOf('/') + 1, ratDates.get(i).indexOf(':') - 2));
+                    System.out.println("rat Year: "+ ratYear);
+                    double lat = Double.parseDouble(latitude.get(i));
+                    double longit = Double.parseDouble(longitude.get(i));
+                    String uniqueKey = key.get(i);
+
+                    if (ratYear > datePicker.fromYear && ratYear < datePicker.toYear) {
+                        LatLng location = new LatLng(lat, longit);
+                        float zoomLevel = 12.0f;
+                        mMap.addMarker(new MarkerOptions().position(location).title("Unique Key: " + uniqueKey));
+                        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(location, zoomLevel));
+                    } else if (ratYear == datePicker.fromYear && ratYear == datePicker.toYear && ratMonth > datePicker.fromMonth && ratMonth < datePicker.toMonth) {
+                        LatLng location = new LatLng(lat, longit);
+                        float zoomLevel = 12.0f;
+                        mMap.addMarker(new MarkerOptions().position(location).title("Unique Key: " + uniqueKey));
+                        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(location, zoomLevel));
+                    } else if (ratYear == datePicker.fromYear && ratYear == datePicker.toYear && ratMonth == datePicker.fromMonth && ratMonth == datePicker.toMonth
+                            && ratDay > datePicker.fromDay && ratDay < datePicker.toDay) {
+                        LatLng location = new LatLng(lat, longit);
+                        float zoomLevel = 12.0f;
+                        mMap.addMarker(new MarkerOptions().position(location).title("Unique Key: " + uniqueKey));
+                        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(location, zoomLevel));
+                    }
+
+                    // Add a marker in Sydney and move the camera
+
+                }
+            }
+
+            private void getRatDates(Map<String,Object> users) {
+
+                ratDates = new ArrayList<>();
+                latitude = new ArrayList<>();
+                longitude = new ArrayList<>();
+                key = new ArrayList<>();
+
+                //iterate through each user, ignoring their UID
+                for (Map.Entry<String, Object> entry : users.entrySet()){
+
+                    //Get user map
+                    Map singleUser = (Map) entry.getValue();
+                    //Get phone field and append to list
+                    ratDates.add((String) singleUser.get("createdDate"));
+                    latitude.add(singleUser.get("latitude").toString());
+                    longitude.add(singleUser.get("longitude").toString());
+                    key.add(singleUser.get("uniqueKey").toString());
+                }
+                System.out.println("rat Dates: " + ratDates.toString() + ", " + ratDates.size());
+                System.out.println("latitudes: " + latitude.toString() + ", " + latitude.size());
+                System.out.println("longitude: " + longitude.toString()+ ", " + longitude.size());
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                throw databaseError.toException(); // don't ignore errors
+            }
+        });
     }
 }

@@ -45,18 +45,17 @@ public class displayRatData extends AppCompatActivity {
         mFirebaseInstance1.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                for (int i = 0; i <= args; i++) {
+               for (int i = 0; i <= args; i++) {
                     HashMap ratkeysdate = (HashMap) dataSnapshot.getValue();
-                    System.out.println("args " + args);
-                    System.out.println("i " + i);
-                    System.out.println("ratdate " + ratkeysdate);
-                    if (i == args) {
-                        System.out.println("ratdate " + ratkeysdate);
-                        String x = ratkeysdate.toString() + "%rats";
-                        ratDatalist.add(x.substring(0, x.indexOf("%")));
-                        break;
+//                    System.out.println("args " + args);
+//                    System.out.println("i " + i);
+//                    System.out.println("ratdate " + ratkeysdate);
+//                    if (i == args) {
+//                        System.out.println("ratdate " + ratkeysdate);
+//                        String x = ratkeysdate.toString() + "%rats";
+                        ratDatalist.add(ratkeysdate.toString());
                     }
-                }
+               // }
 
                 adapter = new ArrayAdapter<String>(displayRatData.this,
                         R.layout.activity_listview, ratDatalist);
