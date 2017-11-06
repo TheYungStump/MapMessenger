@@ -68,9 +68,19 @@ public class GraphActivity extends AppCompatActivity {
                     System.out.println(ratMonth.toString());
                     System.out.println(ratYear.toString());
                     System.out.println(monthYear.toString());
-                    if (ratYear >= DatePickerforGraph.fromYear && ratYear <= DatePickerforGraph.toYear
+                    System.out.println(DatePickerforGraph.fromYear);
+                    System.out.println(DatePickerforGraph.fromMonth);
+                    System.out.println(DatePickerforGraph.toYear);
+                    System.out.println(DatePickerforGraph.toMonth);
+                    System.out.println(ratYear >= DatePickerforGraph.fromYear);
+                    System.out.println(ratYear <= DatePickerforGraph.toYear);
+                    System.out.println(ratMonth >= DatePickerforGraph.fromMonth);
+                    System.out.println(ratMonth <= DatePickerforGraph.toMonth);
+                    if (ratYear >= DatePickerforGraph.fromYear && ratYear <= DatePickerforGraph.toYear) {
+                        series.appendData(new DataPoint(monthYear, entry.getValue()), true, occursCount.size());
+                        datesArr.add(datesArr.size(), entry.getKey());
+                    } else if (ratYear == DatePickerforGraph.fromYear && ratYear == DatePickerforGraph.toYear
                             && ratMonth >= DatePickerforGraph.fromMonth && ratMonth <= DatePickerforGraph.toMonth) {
-                        System.out.println("here");
                         series.appendData(new DataPoint(monthYear, entry.getValue()), true, occursCount.size());
                         datesArr.add(datesArr.size(), entry.getKey());
                     }
