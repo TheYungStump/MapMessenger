@@ -34,6 +34,7 @@ import java.util.List;
 public class RatData extends AppCompatActivity implements View.OnClickListener {
     Button addB;
     Button mapB;
+    Button graphB;
     private final Activity thisActivity = this;
     public static int args;
     private FirebaseDatabase mFirebaseInstance;
@@ -52,8 +53,10 @@ public class RatData extends AppCompatActivity implements View.OnClickListener {
 
         addB = (Button) findViewById(R.id.add);
         mapB = (Button) findViewById(R.id.map);
+        graphB = (Button) findViewById(R.id.graph);
         addB.setOnClickListener(this);
         mapB.setOnClickListener(this);
+        graphB.setOnClickListener(this);
 
         final ListView ratData = (ListView) findViewById(R.id.ratData);
         final ArrayList<String> ratDatalist = new ArrayList<String>();
@@ -95,6 +98,8 @@ public class RatData extends AppCompatActivity implements View.OnClickListener {
                 startActivity(new Intent(this, RegisterRat.class));
             case R.id.map:
                 startActivity(new Intent(this, datePicker.class));
+            case R.id.graph:
+                startActivity(new Intent(this, DatePickerforGraph.class));
         }
 
     }

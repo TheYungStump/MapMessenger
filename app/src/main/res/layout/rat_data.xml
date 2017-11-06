@@ -15,6 +15,12 @@
         android:layout_height="wrap_content"
         android:text="ADD!" />
 
+    <Button
+        android:id="@+id/graph"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Generate Graph" />
+
     <ListView
         android:id = "@+id/ratData"
         android:layout_width="match_parent"
