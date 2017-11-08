@@ -95,7 +95,7 @@ public class GraphActivity extends AppCompatActivity {
                 graph.getViewport().setMaxX(date2.getTime());
                 series.setDrawDataPoints(true);
                 graph.getGridLabelRenderer().setLabelFormatter(new DateAsXAxisLabelFormatter(GraphActivity.this));
-                graph.getGridLabelRenderer().setNumHorizontalLabels(4);
+                graph.getGridLabelRenderer().setNumHorizontalLabels(3);
                 graph.addSeries(series);
             }
 
