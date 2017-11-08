@@ -2,6 +2,7 @@ package com.example.vlisn.m4;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.content.Context;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -10,13 +11,16 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.Viewport;
+import com.jjoe64.graphview.helper.DateAsXAxisLabelFormatter;
 import com.jjoe64.graphview.helper.StaticLabelsFormatter;
 import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Date;
 
 public class GraphActivity extends AppCompatActivity {
 
@@ -29,7 +33,7 @@ public class GraphActivity extends AppCompatActivity {
      * Pulls from Firebase Database then creates a Map with keys corresponding to dates within
      * the range from datepicker and values corresponding to the number of rat sightings each
      * month. It then graphs the data using GraphView.
-     * @param savedInstanceState
+     * @param savedInstanceState bundle object used upon creation
      */
 
     @Override
@@ -46,57 +50,69 @@ public class GraphActivity extends AppCompatActivity {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 getRatDates((Map<String, Object>) dataSnapshot.getValue());
-                datesArr = new ArrayList<String>(0);
-                System.out.println(ratDates.toString());
+                //datesArr = new ArrayList<String>(0);
                 for (int i = 0; i < ratDates.size(); i++) {
-                    String ratMonthYear = ratDates.get(i).substring(0, ratDates.get(i).indexOf('/'))
+                    String ratMonthDayYear = ratDates.get(i).substring(0, ratDates.get(i).indexOf('/'))
+                            + '/' + ratDates.get(i).substring(ratDates.get(i).indexOf('/') + 1, ratDates.get(i).lastIndexOf('/'))
                             + '/' + ratDates.get(i).substring(ratDates.get(i).lastIndexOf('/') + 1,
                             ratDates.get(i).indexOf(':') - 2);
-                    if (occursCount.containsKey(ratMonthYear)) {
-                        occursCount.put(ratMonthYear, occursCount.get(ratMonthYear) + 1);
+                    if (occursCount.containsKey(ratMonthDayYear)) {
+                        occursCount.put(ratMonthDayYear, occursCount.get(ratMonthDayYear) + 1);
                     } else {
-                        occursCount.put(ratMonthYear, 1);
+                        occursCount.put(ratMonthDayYear, 1);
                     }
                 }
 
-                System.out.println(occursCount.toString());
                 for (Map.Entry<String, Integer> entry : occursCount.entrySet()) {
                     Integer ratMonth = Integer.parseInt(entry.getKey().substring(0, entry.getKey().indexOf('/')));
-                    Integer ratYear = Integer.parseInt(entry.getKey().substring(entry.getKey().indexOf('/') + 2,
+                    System.out.println(ratMonth);
+                    Integer ratYear = Integer.parseInt(entry.getKey().substring(entry.getKey().lastIndexOf('/') + 2,
                             entry.getKey().length())) + 2000;
-                    Integer monthYear = Integer.parseInt(ratMonth.toString() + ratYear.toString());
-                    System.out.println(ratMonth.toString());
-                    System.out.println(ratYear.toString());
-                    System.out.println(monthYear.toString());
-                    System.out.println(DatePickerforGraph.fromYear);
-                    System.out.println(DatePickerforGraph.fromMonth);
-                    System.out.println(DatePickerforGraph.toYear);
-                    System.out.println(DatePickerforGraph.toMonth);
-                    System.out.println(ratYear >= DatePickerforGraph.fromYear);
-                    System.out.println(ratYear <= DatePickerforGraph.toYear);
-                    System.out.println(ratMonth >= DatePickerforGraph.fromMonth);
-                    System.out.println(ratMonth <= DatePickerforGraph.toMonth);
+                    Integer ratDay = Integer.parseInt(entry.getKey().substring(entry.getKey().indexOf('/') + 1,
+                            entry.getKey().lastIndexOf('/')));
+                    Calendar calendar = Calendar.getInstance();
+                    calendar.set(ratYear, (ratMonth - 1) % 12, ratDay);
+                    Date date = calendar.getTime();
                     if (ratYear >= DatePickerforGraph.fromYear && ratYear <= DatePickerforGraph.toYear) {
-                        series.appendData(new DataPoint(monthYear, entry.getValue()), true, occursCount.size());
-                        datesArr.add(datesArr.size(), entry.getKey());
+                        System.out.println(date.toString());
+                        series.appendData(new DataPoint(date, entry.getValue()), true, occursCount.size());
+                        //datesArr.add(datesArr.size() - 1, entry.getKey());
                     } else if (ratYear == DatePickerforGraph.fromYear && ratYear == DatePickerforGraph.toYear
                             && ratMonth >= DatePickerforGraph.fromMonth && ratMonth <= DatePickerforGraph.toMonth) {
-                        series.appendData(new DataPoint(monthYear, entry.getValue()), true, occursCount.size());
-                        datesArr.add(datesArr.size(), entry.getKey());
+                        series.appendData(new DataPoint(date, entry.getValue()), true, occursCount.size());
+                        //datesArr.add(datesArr.size() - 1, entry.getKey());
                     }
                 }
-                System.out.println(datesArr);
-                String[] dateLabels = new String[datesArr.size()];
-                for (int i = 0; i < datesArr.size(); i++) {
-                    dateLabels[i] = datesArr.get(i);
-                }
-                //StaticLabelsFormatter staticLabelsFormatter = new StaticLabelsFormatter(graph);
-                //staticLabelsFormatter.setHorizontalLabels(dateLabels);
-                //graph.getGridLabelRenderer().setLabelFormatter(staticLabelsFormatter);
-                graph.getViewport().setScrollable(true);
+//                String[] dateLabels = new String[datesArr.size()];
+//                for (int i = 0; i < datesArr.size(); i++) {
+//                    dateLabels[i] = datesArr.get(i);
+//                }
+//                StaticLabelsFormatter staticLabelsFormatter = new StaticLabelsFormatter(graph);
+//                staticLabelsFormatter.setHorizontalLabels(dateLabels);
+//                graph.getGridLabelRenderer().setLabelFormatter(staticLabelsFormatter);
+                Calendar calendar1 = Calendar.getInstance();
+                calendar1.set(DatePickerforGraph.fromYear, DatePickerforGraph.fromMonth, DatePickerforGraph.fromDay);
+                Date date1 = calendar1.getTime();
+                Calendar calendar2 = Calendar.getInstance();
+                calendar2.set(DatePickerforGraph.toYear, DatePickerforGraph.toMonth, DatePickerforGraph.toDay);
+                Date date2 = calendar2.getTime();
+                graph.getViewport().setYAxisBoundsManual(true);
+                graph.getViewport().setMaxY(100);
+                graph.getViewport().setMinY(0);
+                graph.getViewport().setXAxisBoundsManual(true);
+                graph.getViewport().setMinX(date1.getTime());
+                graph.getViewport().setMaxX(date2.getTime());
+                series.setDrawDataPoints(true);
+                graph.getGridLabelRenderer().setLabelFormatter(new DateAsXAxisLabelFormatter(GraphActivity.this));
+                graph.getGridLabelRenderer().setNumHorizontalLabels(3);
                 graph.addSeries(series);
             }
 
+            /**
+             * This traverses the Firebase Database and pulls the creation dates
+             * for each rat report.
+             * @param users map of users to traverse
+             */
             private void getRatDates(Map<String, Object> users) {
                 ratDates = new ArrayList<>();
 
