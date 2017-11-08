@@ -96,10 +96,13 @@ public class RatData extends AppCompatActivity implements View.OnClickListener {
             case R.id.add:
                 System.out.println("reached add button");
                 startActivity(new Intent(this, RegisterRat.class));
+                break;
             case R.id.map:
                 startActivity(new Intent(this, datePicker.class));
+                break;
             case R.id.graph:
                 startActivity(new Intent(this, DatePickerforGraph.class));
+                break;
         }
 
     }

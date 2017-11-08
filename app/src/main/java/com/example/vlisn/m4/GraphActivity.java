@@ -50,7 +50,6 @@ public class GraphActivity extends AppCompatActivity {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 getRatDates((Map<String, Object>) dataSnapshot.getValue());
-                //datesArr = new ArrayList<String>(0);
                 for (int i = 0; i < ratDates.size(); i++) {
                     String ratMonthDayYear = ratDates.get(i).substring(0, ratDates.get(i).indexOf('/'))
                             + '/' + ratDates.get(i).substring(ratDates.get(i).indexOf('/') + 1, ratDates.get(i).lastIndexOf('/'))
@@ -76,20 +75,12 @@ public class GraphActivity extends AppCompatActivity {
                     if (ratYear >= DatePickerforGraph.fromYear && ratYear <= DatePickerforGraph.toYear) {
                         System.out.println(date.toString());
                         series.appendData(new DataPoint(date, entry.getValue()), true, occursCount.size());
-                        //datesArr.add(datesArr.size() - 1, entry.getKey());
                     } else if (ratYear == DatePickerforGraph.fromYear && ratYear == DatePickerforGraph.toYear
                             && ratMonth >= DatePickerforGraph.fromMonth && ratMonth <= DatePickerforGraph.toMonth) {
                         series.appendData(new DataPoint(date, entry.getValue()), true, occursCount.size());
-                        //datesArr.add(datesArr.size() - 1, entry.getKey());
                     }
                 }
-//                String[] dateLabels = new String[datesArr.size()];
-//                for (int i = 0; i < datesArr.size(); i++) {
-//                    dateLabels[i] = datesArr.get(i);
-//                }
-//                StaticLabelsFormatter staticLabelsFormatter = new StaticLabelsFormatter(graph);
-//                staticLabelsFormatter.setHorizontalLabels(dateLabels);
-//                graph.getGridLabelRenderer().setLabelFormatter(staticLabelsFormatter);
+
                 Calendar calendar1 = Calendar.getInstance();
                 calendar1.set(DatePickerforGraph.fromYear, DatePickerforGraph.fromMonth, DatePickerforGraph.fromDay);
                 Date date1 = calendar1.getTime();
@@ -104,7 +95,7 @@ public class GraphActivity extends AppCompatActivity {
                 graph.getViewport().setMaxX(date2.getTime());
                 series.setDrawDataPoints(true);
                 graph.getGridLabelRenderer().setLabelFormatter(new DateAsXAxisLabelFormatter(GraphActivity.this));
-                graph.getGridLabelRenderer().setNumHorizontalLabels(3);
+                graph.getGridLabelRenderer().setNumHorizontalLabels(4);
                 graph.addSeries(series);
             }
 
